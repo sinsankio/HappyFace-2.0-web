@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subject Registration</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <style>
+      .error-message {
+        color: red;
+        font-size: 14px;
+      }
+      .register-container {
+        max-width: 600px;
+        margin: auto;
+        margin-top: 50px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      fieldset {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        legend {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register-container">
+      <h2 class="text-center">Register Subject</h2>
+      <script>
+        function dashboard() {
+          window.location.href = "/dashboard";
+        }
+      </script>
+      <form
+        action="/register-subject"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <fieldset>
+          <legend>Basic Details</legend>
+          <label for="name">Name: </label>
+          <input type="text" name="name" id="name" /><br />
+          {% if name_error %}
+          <span class="error-message">{{ name_error }}</span><br />
+          {% endif %}
+
+          <label for="address">Address: </label>
+          <input type="text" name="address" id="address" /><br />
+          {% if address_error %}
+          <span class="error-message">{{ address_error }}</span><br />
+          {% endif %}
+
+          <label>Date of Birth: </label>
+          <input
+            type="text"
+            name="dob-year"
+            id="dob-year"
+            placeholder="YYYY"
+            size="1"
+            maxlength="4"
+          />
+          -
+          <input
+            type="text"
+            name="dob-month"
+            id="dob-month"
+            placeholder="MM"
+            size="1"
+            maxlength="2"
+          />
+          -
+          <input
+            type="text"
+            name="dob-day"
+            id="dob-day"
+            placeholder="DD"
+            size="1"
+            maxlength="2"
+          /><br />
+          {% if dob_error %}
+          <span class="error-message">{{ dob_error }}</span><br />
+          {% endif %}
+
+          <label>Gender:</label>
+          <input type="radio" name="gender" value="male" id="male" checked />
+          <label for="male">Male</label>
+          <input type="radio" name="gender" value="female" id="female" />
+          <label for="female">Female</label><br />
+
+          <label for="email">Email: </label>
+          <input type="text" name="email" id="email" /><br />
+          {% if email_error %}
+          <span class="error-message">{{ email_error }}</span><br />
+          {% endif %}
+
+          <label for="face-snap-dir-uri">Face Snap Directory Name: </label>
+          <input
+            type="text"
+            name="face-snap-dir-uri"
+            id="face-snap-dir-uri"
+          /><br />
+          {% if face_snap_dir_uri_error %}
+          <span class="error-message">{{ face_snap_dir_uri_error }}</span><br />
+          {% endif %}
+
+          <label for="salary">Salary: </label>
+          <input type="text" name="salary" id="salary" />$<br />
+          {% if salary_error %}
+          <span class="error-message">{{ salary_error }}</span><br />
+          {% endif %}
+
+          <label for="dp-img-file">Display Image File: </label>
+          <input
+            type="file"
+            name="dp-img-file"
+            id="dp-img-file"
+            accept=".jpg, .jpeg, .png"
+          /><br />
+        </fieldset>
+
+        <fieldset>
+          <legend>Credentials</legend>
+
+          <label for="username">Username: </label>
+          <input type="text" name="username" id="username" /><br />
+          {% if username_error %}
+          <span class="error-message">{{ username_error }}</span><br />
+          {% endif %}
+
+          <label for="password">Password: </label>
+          <input type="password" name="password" id="password" /><br />
+          {% if password_error %}
+          <span class="error-message">{{ password_error }}</span><br />
+          {% endif %}
+
+          <label for="password-retype">Password Retype: </label>
+          <input
+            type="password"
+            name="password-retype"
+            id="password-retype"
+          /><br />
+          {% if password_retype_error %}
+          <span class="error-message">{{ password_retype_error }}</span><br />
+          {% endif %}
+        </fieldset>
+
+        <fieldset>
+          <legend>Hidden Diseases</legend>
+
+          <input
+            type="checkbox"
+            id="hypertension"
+            name="hypertension"
+            value="hypertension"
+          />
+          <label for="hypertension">Hypertension</label><br />
+
+          <input
+            type="checkbox"
+            id="type-2-diabetes"
+            name="type-2-diabetes"
+            value="type-2-diabetes"
+          />
+          <label for="type-2-diabetes">Type 2 Diabetes</label><br />
+
+          <input
+            type="checkbox"
+            id="chronic-kidney"
+            name="chronic-kidney"
+            value="chronic-kidney"
+          />
+          <label for="chronic-kidney">Chronic Kidney</label><br />
+
+          <input
+            type="checkbox"
+            id="osteoporosis"
+            name="osteoporosis"
+            value="osteoporosis"
+          />
+          <label for="osteoporosis">Osteoporosis</label><br />
+
+          <input
+            type="checkbox"
+            id="hepatitis-c"
+            name="hepatitis-c"
+            value="hepatitis-c"
+          />
+          <label for="hepatitis-c">Hepatitis C</label><br />
+
+          <input
+            type="checkbox"
+            id="celiac-disease"
+            name="celiac-disease"
+            value="celiac-disease"
+          />
+          <label for="celiac-disease">Celiac Disease</label><br />
+
+          <input
+            type="checkbox"
+            id="chlamydia-gonorrhea"
+            name="chlamydia-gonorrhea"
+            value="chlamydia-gonorrhea"
+          />
+          <label for="chlamydia-gonorrhea">Chlamydia and Gonorrhea</label><br />
+
+          <input
+            type="checkbox"
+            id="hiv-aids"
+            name="hiv-aids"
+            value="hiv-aids"
+          />
+          <label for="hiv-aids">HIV/AIDS</label><br />
+
+          <input type="checkbox" id="NAFLD" name="NAFLD" value="NAFLD" />
+          <label for="NAFLD">NAFLD</label><br />
+
+          <input
+            type="checkbox"
+            id="depression"
+            name="depression"
+            value="depression"
+          />
+          <label for="depression">Depression</label><br /><br />
+        </fieldset>
+
+        <fieldset class="mb-3">
+          <legend>Family Details</legend>
+
+          <label>Category:</label>
+          <input
+            type="radio"
+            name="family-category"
+            value="simplex"
+            id="simplex"
+            checked
+          />
+          <label for="simplex">Simplex</label>
+          <input
+            type="radio"
+            name="family-category"
+            value="complex"
+            id="complex"
+          />
+          <label for="complex">Complex</label><br />
+
+          <label for="family-monthly-expenses">Monthly Expenses:</label>
+          <input
+            type="text"
+            name="family-monthly-expenses"
+            id="family-monthly-expenses"
+          />$<br />
+          {% if family_monthly_expenses_error %}
+          <span class="error-message">{{ family_monthly_expenses_error }}</span
+          ><br />
+          {% endif %}
+
+          <label for="family-monthly-income">Monthly Income: </label>
+          <input
+            type="text"
+            name="family-monthly-income"
+            id="family-monthly-income"
+          />$<br />
+          {% if family_monthly_income_error %}
+          <span class="error-message">{{ family_monthly_income_error }}</span
+          ><br />
+          {% endif %}
+
+          <label for="family-num-members">Number of Members: </label>
+          <input
+            type="text"
+            name="family-num-members"
+            id="family-num-members"
+          /><br />
+          {% if family_num_members_error %}
+          <span class="error-message">{{ family_num_members_error }}</span
+          ><br />
+          {% endif %}
+
+          <label for="family-num-jobs">Number of Occupations: </label>
+          <input
+            type="text"
+            name="family-num-jobs"
+            id="family-num-jobs"
+          /><br />
+          {% if family_num_jobs_error %}
+          <span class="error-message">{{ family_num_jobs_error }}</span><br />
+          {% endif %}
+        </fieldset>
+        <div class="mb-2">
+          <button type="submit" class="btn btn-primary">Register</button>
+          <button type="reset" class="btn btn-secondary">Clear</button>
+        </div>
+      </form>
+      <br />
+      <div class="md-2">
+        <button type="button" class="btn btn-success" onclick="dashboard()">Dashboard</button>
+      </div>
+    </div>
+
+    <script>
+      {% if name %}
+          document.getElementById("name").value = "{{ name }}"
+      {% endif %}
+
+      {% if address %}
+          document.getElementById("address").value = "{{ address }}"
+      {% endif %}
+
+      {% if gender %}
+          {% if gender == "male" %}
+              document.getElementById("male").checked = true
+          {% elif gender == "female" %}
+              document.getElementById("female").checked = true
+          {% endif %}
+      {% endif %}
+
+      {% if dob_year %}
+          document.getElementById("dob-year").value = "{{ dob_year }}"
+      {% endif %}
+
+      {% if dob_month %}
+          document.getElementById("dob-month").value = "{{ dob_month }}"
+      {% endif %}
+
+      {% if dob_day %}
+          document.getElementById("dob-day").value = "{{ dob_day }}"
+      {% endif %}
+
+      {% if email %}
+          document.getElementById("email").value = "{{ email }}"
+      {% endif %}
+
+      {% if face_snap_dir_uri %}
+          document.getElementById("face-snap-dir-uri").value = "{{ face_snap_dir_uri }}"
+      {% endif %}
+
+      {% if salary %}
+          document.getElementById("salary").value = "{{ salary }}"
+      {% endif %}
+
+      {% if username %}
+          document.getElementById("username").value = "{{ username }}"
+      {% endif %}
+
+      {% if password %}
+          document.getElementById("password").value = "{{ password }}"
+      {% endif %}
+
+      {% if password_retype %}
+          document.getElementById("password-retype").value = "{{ password_retype }}"
+      {% endif %}
+
+      {% if family_category %}
+          {% if family_category == "simplex" %}
+              document.getElementById("simplex").checked = true
+          {% elif family_category == "complex" %}
+              document.getElementById("complex").checked = true
+          {% endif %}
+      {% endif %}
+
+      {% if family_monthly_expenses %}
+          document.getElementById("family-monthly-expenses").value = {{ family_monthly_expenses }}
+      {% endif %}
+
+      {% if family_monthly_income %}
+          document.getElementById("family-monthly-income").value = {{ family_monthly_income }}
+      {% endif %}
+
+      {% if family_num_members %}
+          document.getElementById("family-num-members").value = {{ family_num_members }}
+      {% endif %}
+
+      {% if family_num_jobs %}
+          document.getElementById("family-num-jobs").value = {{ family_num_jobs }}
+      {% endif %}
+
+      {% if hidden_diseases %}
+          {% for disease in hidden_diseases %}
+              document.getElementById("{{ disease }}").checked = true
+          {% endfor %}
+      {% endif %}
+    </script>
+  </body>
+</html>

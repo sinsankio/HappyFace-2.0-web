@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Registration</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .register-container {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <script>
+            function resetRegistration() {
+                window.location.href = "/register";
+            }
+        </script>
+
+        <h2 class="text-center">Register Organization</h2>
+
+        {% if success_reg_org_key %}
+            <br>
+            <p>Copy your below Organization Key to login and make it confidential</p>
+            <input
+                type="text"
+                value="{{ success_reg_org_key }}"
+                id="success-reg-org-key-copy"
+                style="border: none; font-size: 18px"
+                class="form-control"
+            />
+            <button onclick="copyToClipboard()" class="btn btn-primary mt-2">Copy Organization Key</button>
+
+            <script>
+                function copyToClipboard() {
+                    var copyText = document.getElementById("success-reg-org-key-copy");
+
+                    copyText.select();
+                    copyText.setSelectionRange(0, 99999);
+
+                    document.execCommand("copy");
+                    copyText.setSelectionRange(0, 0);
+
+                    alert("Organization Key has been copied to the clipboard");
+
+                    window.location.href = "/login";
+                }
+            </script>
+        {% else %}
+            <form action="/register" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" id="name" class="form-control" {% if name %} value="{{ name }}" {% endif %} />
+                    {% if name_error %}
+                        <span class="error-message">{{ name_error }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" name="address" id="address" class="form-control" {% if address %} value="{{ address }}" {% endif %} />
+                    {% if address_error %}
+                        <span class="error-message">{{ address_error }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="business-reg">Business Registration ID:</label>
+                    <input type="text" name="business-reg" id="business-reg" class="form-control" {% if business_reg %} value="{{ business_reg }}" {% endif %} />
+                    {% if business_reg_error %}
+                        <span class="error-message">{{ business_reg_error }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="owner">Owner:</label>
+                    <input type="text" name="owner" id="owner" class="form-control" {% if owner %} value="{{ owner }}" {% endif %} />
+                    {% if owner_error %}
+                        <span class="error-message">{{ owner_error }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" id="email" class="form-control" {% if email %} value="{{ email }}" {% endif %} />
+                    {% if email_error %}
+                        <span class="error-message">{{ email_error }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" class="form-control" {% if password %} value="{{ password }}" {% endif %} />
+                    {% if password_error %}
+                        <span class="error-message">{{ password_error }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="password-retype">Password Retype:</label>
+                    <input type="password" name="password-retype" id="password-retype" class="form-control" {% if password_retype %} value="{{ password_retype }}" {% endif %} />
+                    {% if password_retype_error %}
+                        <span class="error-message">{{ password_retype_error }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="logo-img-file">Logo Image File:</label>
+                    <input type="file" name="logo-img-file" id="logo-img-file" accept=".jpg, .jpeg, .png" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="button" onclick="resetRegistration()" class="btn btn-secondary">Clear</button>
+                </div>
+
+                <p class="text-center"><a href="/login">Already have an account?</a></p>
+            </form>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        {% if name %}
+            document.getElementById("name").value = "{{ name }}"
+        {% endif %}
+
+        {% if address %}
+            document.getElementById("address").value = "{{ address }}"
+        {% endif %}
+
+        {% if business_reg %}
+            document.getElementById("business-reg").value = "{{ business_reg }}"
+        {% endif %}
+
+        {% if owner %}
+            document.getElementById("owner").value = "{{ owner }}"
+        {% endif %}
+
+        {% if email %}
+            document.getElementById("email").value = "{{ email }}"
+        {% endif %}
+
+        {% if password %}
+            document.getElementById("password").value = "{{ password }}"
+        {% endif %}
+
+        {% if password_retype %}
+            document.getElementById("password-retype").value = "{{ password_retype }}"
+        {% endif %}
+    </script>
+</body>
+</html>

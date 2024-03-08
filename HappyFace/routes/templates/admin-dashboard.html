@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .dashboard-container {
+            max-width: 800px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        .organization-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        .resized-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2 class="text-center">Admin Dashboard</h2>
+        <div class="btn-container d-flex justify-content-center">
+            <button class="btn btn-danger mx-2" onclick="logout()">Logout</button><br />
+            <button class="btn btn-primary mx-2" onclick="registeredOrganizations()">Registered Organizations</button><br />
+        </div>
+
+        {% if organizations %}
+            {% for org in organizations %}
+            <div class="organization-container">
+                <img class="resized-image img-fluid" src="data:image/jpeg;base64,{{ org['displayLogo'] }}" alt="org-logo" />
+                <table class="table table-bordered mt-3">
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ org["name"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ org["address"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Business Registration ID</th>
+                        <td>{{ org["businessReg"] if org["businessReg"] else "N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Owner</th>
+                        <td>{{ org["owner"] if org["owner"] else "N/A" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ org["email"] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Registered On</th>
+                        <td>{{ org["registeredOn"].strftime('%B %d, %Y %I:%M %p') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Happy Engagement</th>
+                        <td>{{ (org["happyEngagement"] * 100)|int }}%</td>
+                    </tr>
+                    <tr>
+                        <th>Subscription</th>
+                        <td>{{ org["subscription"]["name"].title() }}</td>
+                    </tr>
+                </table>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        function logout() {
+            window.location.href = "/logout";
+        }
+
+        function registeredOrganizations() {
+            {% if organizations %}
+                window.location.href = "/dashboard";
+            {% else %}
+                window.location.href = "/orgs/all";
+            {% endif %}
+        }
+    </script>
+</body>
+</html>
