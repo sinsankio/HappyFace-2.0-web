@@ -111,7 +111,7 @@
 
       {% for message in consultancy["chat"] %}
       <div class="message-container border rounded p-3 mb-3">
-        <p><b>{{ message["sender"].title() }}: </b>{{ message["body"] }}</p>
+          <p><b>{{ message["sender"].title() }}: </b><pre>{{ message["body"] }}</pre></p>
         <small>{{ message["sentOn"].strftime('%B %d, %Y %I:%M %p') }}</small>
       </div>
       {% endfor %}

@@ -63,13 +63,11 @@ def login():
 
                 response.set_cookie("sub-login", sub_login, max_age=3600 * 24 * 7)
                 response.set_cookie("sub-org-auth", sub_org_auth, max_age=3600 * 24 * 7)
-
                 return response
 
         session["logged-subject"] = subject["_id"]
         session["logged-subject-org-key"] = HashHelper.hash(org_key)
         app.session_logged_subs[subject["_id"]] = subject
-
         return redirect(url_for("dashboard"))
     return render_template("subject-login.html", error="Invalid login", org_key=org_key, username=username, password=password)
 

@@ -5,6 +5,7 @@ import secrets
 from datetime import datetime
 
 from flask import Flask, request, render_template, redirect, url_for, session, make_response
+from werkzeug.utils import secure_filename
 
 from helper.api.organization_api_helper import OrganizationApiHelper
 from helper.data_visualize.data_visualize_helper import DataVisualizeHelper
@@ -134,7 +135,7 @@ def register():
         logo_img_file = request.files["logo-img-file"]
 
         if logo_img_file.filename:
-            logo_img_file.save(os.path.join("uploads", logo_img_file.filename))
+            logo_img_file.save(os.path.join(app.config["UPLOAD_FOLDER"], logo_img_file.filename))
 
     if not ValidationHelper.len_lt_check({name: 50}):
         name_error = "Too long entry for name"
@@ -188,7 +189,7 @@ def register():
     display_logo = None
 
     if logo_img_file:
-        display_logo = ImageHelper.encode(os.path.join("uploads", logo_img_file.filename))
+        display_logo = ImageHelper.encode(os.path.join(app.config["UPLOAD_FOLDER"], logo_img_file.filename))
 
     organization = {
         "name": html.escape(name),
@@ -225,7 +226,7 @@ def update_basic():
             logo_img_file = request.files["logo-img-file"]
 
             if logo_img_file.filename:
-                logo_img_file.save(os.path.join("uploads", logo_img_file.filename))
+                logo_img_file.save(os.path.join(app.config["UPLOAD_FOLDER"], logo_img_file.filename))
 
         if ValidationHelper.len_gt_check({name: 50}):
             name_error = "Too long entry for name"
@@ -270,7 +271,7 @@ def update_basic():
         display_logo = None
 
         if logo_img_file:
-            display_logo = ImageHelper.encode(os.path.join("uploads", logo_img_file.filename))
+            display_logo = ImageHelper.encode(os.path.join(app.config["UPLOAD_FOLDER"], logo_img_file.filename))
 
         new_organization = copy.copy(organization)
         new_organization["name"] = html.escape(name)
@@ -462,7 +463,7 @@ def register_subject():
             dp_img_file = request.files["dp-img-file"]
 
             if dp_img_file.filename:
-                dp_img_file.save(os.path.join("uploads", dp_img_file.filename))
+                dp_img_file.save(os.path.join(app.config["UPLOAD_FOLDER"], dp_img_file.filename))
 
         if "hypertension" in request.form:
             hidden_diseases.append(request.form["hypertension"])
@@ -601,7 +602,7 @@ def register_subject():
             "faceSnapDirURI": html.escape(face_snap_dir_uri)
         }
         if dp_img_file:
-            dp_img = ImageHelper.encode(os.path.join("uploads", dp_img_file.filename))
+            dp_img = ImageHelper.encode(os.path.join(app.config["UPLOAD_FOLDER"], dp_img_file.filename))
         if dp_img:
             subject["displayPhoto"] = dp_img
         if subject := OrganizationApiHelper.register_subject(organization, subject):
@@ -674,7 +675,8 @@ def update_subject(sid: str = None):
             dp_img_file = request.files["dp-img-file"]
 
             if dp_img_file.filename:
-                dp_img_file.save(os.path.join("uploads", dp_img_file.filename))
+                filename = secure_filename(dp_img_file.filename)
+                dp_img_file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
         if "hypertension" in request.form:
             hidden_diseases.append(request.form["hypertension"])
@@ -795,7 +797,7 @@ def update_subject(sid: str = None):
         subject["faceSnapDirURI"] = html.escape(face_snap_dir_uri)
 
         if dp_img_file:
-            dp_img = ImageHelper.encode(os.path.join("uploads", dp_img_file.filename))
+            dp_img = ImageHelper.encode(os.path.join(app.config["UPLOAD_FOLDER"], dp_img_file.filename))
         if dp_img:
             subject["displayPhoto"] = dp_img
 
@@ -828,9 +830,10 @@ def delete_subject(random_fake_word: str = None, sid: str = None):
 
         random_fake_word = FakeWordHelper.generate_random_fake_word()
         return render_template("subject-delete.html", delete_error="Deletion is not confirmed",
-                                random_fake_word=random_fake_word, id=sid)
+                               random_fake_word=random_fake_word, id=sid)
     return redirect(url_for("login"))
 
 
 if __name__ == "__main__":
+    app.config["UPLOAD_FOLDER"] = "routes/uploads"
     app.run(debug=True, port=5001)

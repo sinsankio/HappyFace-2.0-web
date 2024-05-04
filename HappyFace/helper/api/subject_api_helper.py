@@ -112,8 +112,8 @@ class SubjectApiHelper:
                 "password": subject["password"]
             },
             "message": {
-                "sender": "user",
-                "receiver": "assistant",
+                "sender": "friend",
+                "receiver": "emotionistant",
                 "body": message
             }
         }
