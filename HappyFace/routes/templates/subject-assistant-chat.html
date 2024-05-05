@@ -91,19 +91,19 @@
   </head>
 
   <body>
+  <script>
+    function openForm() {
+      document.getElementById("chat").style.display = "block";
+    }
+    function closeForm() {
+      document.getElementById("chat").style.display = "none";
+    }
+    function dashboard() {
+      window.location.href = "/dashboard";
+    }
+  </script>
     {% if consultancy %}
     <div class="container mt-4">
-      <script>
-        function openForm() {
-          document.getElementById("chat").style.display = "block";
-        }
-        function closeForm() {
-          document.getElementById("chat").style.display = "none";
-        }
-        function dashboard() {
-          window.location.href = "/dashboard";
-        }
-      </script>
       <h2>
         Latest Consultancy Chat On: {{ consultancy['consultedOn'].strftime('%B
         %d, %Y %I:%M %p') }}
