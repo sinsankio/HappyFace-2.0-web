@@ -30,57 +30,59 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2 class="text-center">Admin Login</h2>
-        <script>
-            function resetLogin() {
-                window.location.href = "/login";
-            }
-        </script>
-        <form action="/login" method="post">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" class="form-control" id="username" name="username" {% if username %} value="{{ username }}" {% endif %} />
-            </div>
+<div class="login-container">
+    <h2 class="text-center">Admin Login</h2>
+    <script>
+        function resetLogin() {
+            window.location.href = "/login";
+        }
+    </script>
+    <form action="/login" method="post">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" {% if username %}
+                   value="{{ username }}" {% endif %} />
+        </div>
 
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" {% if password %} value="{{ password }}" {% endif %} />
-            </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" {% if password %}
+                   value="{{ password }}" {% endif %} />
+        </div>
 
-            {% if error %}
+        {% if error %}
             <div class="form-group">
                 <span class="error-message">{{ error }}</span>
             </div>
-            {% endif %}
-
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
-                <label class="form-check-label" for="remember-me">Remember Me</label>
-            </div>
-
-            <br />
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Login</button>
-                <button type="button" class="btn btn-secondary" onclick="resetLogin()">Clear</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-    <script>
-        {% if username %}
-            document.getElementById("username").value = "{{ username }}"
         {% endif %}
 
-        {% if password %}
-            document.getElementById("password").value = "{{ password }}"
-        {% endif %}
-    </script>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+            <label class="form-check-label" for="remember-me">Remember Me</label>
+        </div>
+
+        <br/>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-secondary" onclick="resetLogin()">Clear</button>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    {% if username %}
+        document.getElementById("username").value = "{{ username }}"
+    {% endif %}
+
+    {% if password %}
+        document.getElementById("password").value = "{{ password }}"
+    {% endif %}
+</script>
 </body>
 </html>

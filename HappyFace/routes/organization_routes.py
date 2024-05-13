@@ -584,7 +584,7 @@ def register_subject():
         dp_img = None
         subject = {
             "username": html.escape(username),
-            "password": html.escape(password),
+            "password": password,
             "name": html.escape(name),
             "address": html.escape(address),
             "dob": ValidationHelper.date_check(f"{dob_year}-{dob_month}-{dob_day}").strftime("%Y-%m-%d"),
@@ -831,6 +831,46 @@ def delete_subject(random_fake_word: str = None, sid: str = None):
         random_fake_word = FakeWordHelper.generate_random_fake_word()
         return render_template("subject-delete.html", delete_error="Deletion is not confirmed",
                                random_fake_word=random_fake_word, id=sid)
+    return redirect(url_for("login"))
+
+
+@app.route("/scr", methods=["GET"])
+def fetch_special_consideration_requests():
+    if organization := session.get("logged-organization"):
+        organization = app.session_logged_orgs[organization]
+
+        if sc_requests := OrganizationApiHelper.fetch_special_consideration_requests(organization):
+            for sc_request in sc_requests:
+                sc_request["requestedOn"] = datetime.fromisoformat(sc_request["requestedOn"])
+            return render_template("organization-dashboard.html", sc_requests=sc_requests)
+        return render_template("organization-dashboard.html",
+                               sc_request_na="No any special consideration requests available")
+    return redirect(url_for("login"))
+
+
+@app.route("/scr-response", methods=["POST"])
+def response_special_consideration_requests():
+    if organization := session.get("logged-organization"):
+        organization = app.session_logged_orgs[organization]
+
+        if sc_requests := OrganizationApiHelper.fetch_special_consideration_requests(organization):
+            scr_responses = []
+            for sc_request in sc_requests:
+                form_response_entry = f"sc-{sc_request['requestId']}-response"
+                if form_response_entry in request.form:
+                    response_msg = request.form[form_response_entry]
+                    if not ValidationHelper.is_empty(response_msg):
+                        scr_response = {
+                            "requestId": sc_request["requestId"],
+                            "subjectId": sc_request["subjectId"],
+                            "message": response_msg
+                        }
+                        scr_responses.append(scr_response)
+            if scr_responses:
+                OrganizationApiHelper.make_responses_for_special_consideration_requests(organization, scr_responses)
+            return render_template("organization-dashboard.html")
+        return render_template("organization-dashboard.html",
+                               sc_request_na="No any special consideration requests available")
     return redirect(url_for("login"))
 
 

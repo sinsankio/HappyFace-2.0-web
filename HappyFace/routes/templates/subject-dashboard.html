@@ -1,285 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Subject Dashboard</title>
     <!-- Bootstrap CSS -->
     <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
     <style>
-      body {
-        background-color: #f8f9fa;
-      }
-
-      .dashboard-container {
-        max-width: 800px;
-        margin: auto;
-        margin-top: 50px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #ffffff;
-      }
-
-      .profile-container,
-      .emotion-container {
-        margin-top: 20px;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      }
-
-      .resized-image {
-        width: 200px;
-        height: 200px;
-        border-radius: 5px;
-        object-fit: cover;
-        margin: 0 auto;
-        display: block;
-      }
-
-      .error-message {
-        color: red;
-        font-size: 14px;
-      }
-
-      fieldset {
-        margin-top: 20px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        legend {
-          font-size: 20px;
-          margin-bottom: 10px;
+        body {
+            background-color: #f8f9fa;
         }
-      }
 
-      ul {
-        list-style-type: none;
-        padding: 0;
-      }
+        .dashboard-container {
+            max-width: 800px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
 
-      li {
-        margin-bottom: 5px;
-      }
-  </style>
-  </head>
-  <body>
-    <div class="dashboard-container">
-      <h2 class="text-center">Subject Dashboard</h2>
-      <script>
+        .profile-container,
+        .emotion-container,
+        .scr-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .resized-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+
+        fieldset {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+
+            legend {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <h2 class="text-center">Subject Dashboard</h2>
+    <script>
         function logout() {
             window.location.href = "/logout"
         }
+
         function viewProfile() {
             {% if profile %}
-                 window.location.href = "/dashboard"
+                window.location.href = "/dashboard"
             {% else %}
                 window.location.href = "/profile"
             {% endif %}
         }
+
         function emotions() {
             {% if emotions %}
-                 window.location.href = "/dashboard"
+                window.location.href = "/dashboard"
             {% else %}
                 window.location.href = "/emotions"
             {% endif %}
         }
+
         function consultancy() {
             {% if consultancy %}
-                 window.location.href = "/dashboard"
+                window.location.href = "/dashboard"
             {% else %}
                 window.location.href = "/consultancy-chat"
             {% endif %}
         }
+
+        function specialConsiderationRequest() {
+            {% if scr or scr_error %}
+                window.location.href = "/dashboard"
+            {% else %}
+                window.location.href = "/scr"
+            {% endif %}
+        }
+
+        function resetSpecialConsiderationRequest() {
+            window.location.href = "/scr"
+        }
+
+        function fetchRespondedSpecialConsiderationRequests() {
+            window.location.href = "/scr-responses"
+        }
+
         function update() {
             window.location.href = "/update"
         }
+
         function resetEmotions() {
             window.location.href = "/emotions"
         }
-      </script>
+    </script>
 
-      <div class="btn-container d-flex justify-content-center">
+    <div class="btn-container d-flex justify-content-center">
         <button class="btn btn-danger" onclick="logout()">Logout</button>
-        <button class="btn btn-primary mx-2" onclick="viewProfile()">
-          Profile
+        <button class="btn btn-primary btn-sm mx-1" onclick="viewProfile()">
+            Profile
         </button>
-        <button class="btn btn-info mx-2" onclick="emotions()">
-          Emotion Engagement
+        <button class="btn btn-info btn-sm mx-1" onclick="emotions()">
+            Emotion Engagement
         </button>
-        <button class="btn btn-success mx-2" onclick="consultancy()">
-          Emotion Consultancy
+        <button class="btn btn-success btn-sm mx-1" onclick="consultancy()">
+            Emotion Consultancy
         </button>
-      </div>
-
-      {% if profile %}
-      <div class="container mt-4">
-        <h2 class="mt-4">Profile</h2>
-        <div class="card">
-          <img
-            class="card-img-top resized-image"
-            src="data:image/jpeg;base64,{{ profile['displayPhoto'] }}"
-            alt="DP"
-          />
-          <div class="card-body">
-            <h4 class="card-title">{{ profile["name"].title() }}</h4>
-            <p class="card-text">
-              <strong>Address:</strong> {{ profile["address"].title() }}<br />
-              <strong>Date of Birth:</strong> {{ profile["dob"] }}<br />
-              <strong>Gender:</strong> {{ profile["gender"].title() }}<br />
-              <strong>Email:</strong> {{ profile["email"] }}<br />
-              <strong>Salary:</strong> {{ profile["salary"] }}$<br />
-              <strong>Registered On:</strong> {{
-              profile["registeredOn"].strftime('%B %d, %Y %I:%M %p') }}
-            </p>
-          </div>
-
-          {% if profile["hiddenDiseases"] %}
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <strong>Hidden Diseases:</strong>
-              <ul>
-                {% for disease in profile["hiddenDiseases"] %}
-                <li>{{ disease.title() }}</li>
-                {% endfor %}
-              </ul>
-            </li>
-          </ul>
-          {% endif %}
-
-          <div class="card-body">
-            <h5 class="card-title">Family</h5>
-            <p class="card-text">
-              <strong>Category:</strong> {{
-              profile["family"]["category"].title() }}<br />
-              <strong>Monthly Expenses:</strong> {{
-              profile["family"]["monthlyCummExpenses"] }}$<br />
-              <strong>Monthly Income:</strong> {{
-              profile["family"]["monthlyCummIncome"] }}$<br />
-              <strong>Number of Members:</strong> {{
-              profile["family"]["numMembers"] }}<br />
-              <strong>Number of Occupations:</strong> {{
-              profile["family"]["numOccupations"] }}
-            </p>
-          </div>
-        </div>
-        <div class="mt-3">
-          <button class="btn btn-primary" onclick="update()">
-            Update Credentials
-          </button>
-        </div>
-
-        {% elif emotions %}
-        <div class="emotion-container">
-          <h2 class="mt-2">Emotion Engagement</h2>
-          <form action="/emotions" method="post">
-            <label for="hours-before">Hours: </label>
-            <input
-              type="text"
-              name="hours-before"
-              id="hours-before"
-              size="1"
-              maxlength="2"
-              value="24"
-            /><br />
-            {% if hours_before_error %}
-            <span class="error-message">{{ hours_before_error }}</span><br />
-            {% endif %}
-
-            <label for="weeks-before">Weeks: </label>
-            <input
-              type="text"
-              name="weeks-before"
-              id="weeks-before"
-              size="1"
-              maxlength="2"
-              value="0"
-            /><br />
-            {% if weeks_before_error %}
-            <span class="error-message">{{ weeks_before_error }}</span><br />
-            {% endif %}
-
-            <label for="months-before">Months: </label>
-            <input
-              type="text"
-              name="months-before"
-              id="months-before"
-              size="1"
-              maxlength="2"
-              value="0"
-            /><br />
-            {% if months_before_error %}
-            <span class="error-message">{{ months_before_error }}</span><br />
-            {% endif %}
-
-            <label for="years-before">Years: </label>
-            <input
-              type="text"
-              name="years-before"
-              id="years-before"
-              size="1"
-              maxlength="2"
-              value="0"
-            /><br />
-            {% if years_before_error %}
-            <span class="error-message">{{ years_before_error }}</span><br />
-            {% endif %} {% if emotion_engagement_bar_plt %}
-            <img
-              src="data:image/jpeg;base64,{{ emotion_engagement_bar_plt }}"
-              alt="Emotion Engagement Bar"
-            />
-            {% endif %} {% if emotion_engagement_pie_plt %}
-            <img
-              src="data:image/jpeg;base64,{{ emotion_engagement_pie_plt }}"
-              alt="Emotion Engagement Pie"
-            />
-            {% endif %} {% if emotion_engagement_na %}
-            <span class="error-message">{{ emotion_engagement_na }}</span><br />
-            {% endif %}
-
-            <br /><br />
-            <div class="mb-2">
-              <button type="submit" class="btn btn-primary">Fetch</button>
-              <button
-                type="reset"
-                class="btn btn-secondary"
-                onclick="resetEmotions()"
-              >
-                Reset
-              </button>
-            </div>
-          </form>
-        </div>
-        {% elif consultancy_na %}
-        <span class="error-message">{{ consultancy_na }}</span><br />
-        {% endif %}
-      </div>
+        <button class="btn btn-secondary btn-sm mx-1" onclick="specialConsiderationRequest()">
+            Special Consideration Requests
+        </button>
     </div>
 
+    {% if profile %}
+        <div class="profile-container">
+            <div class="card-body">
+                <h2 class="card-title">Profile</h2>
+                <div class="card">
+                    <img
+                            class="card-img-top resized-image"
+                            src="data:image/jpeg;base64,{{ profile['displayPhoto'] }}"
+                            alt="DP"
+                    />
+                    <div class="card-body">
+                        <h4 class="card-title">{{ profile["name"].title() }}</h4>
+                        <p class="card-text">
+                            <strong>Address:</strong> {{ profile["address"].title() }}<br/>
+                            <strong>Date of Birth:</strong> {{ profile["dob"] }}<br/>
+                            <strong>Gender:</strong> {{ profile["gender"].title() }}<br/>
+                            <strong>Email:</strong> {{ profile["email"] }}<br/>
+                            <strong>Salary:</strong> {{ profile["salary"] }}$<br/>
+                            <strong>Registered On:</strong> {{ profile["registeredOn"].strftime('%B %d, %Y %I:%M %p') }}
+                        </p>
+                    </div>
+
+                    {% if profile["hiddenDiseases"] %}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Hidden Diseases:</strong>
+                                <ul>
+                                    {% for disease in profile["hiddenDiseases"] %}
+                                        <li>{{ disease.title() }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">Family</h5>
+                        <p class="card-text">
+                            <strong>Category:</strong> {{ profile["family"]["category"].title() }}<br/>
+                            <strong>Monthly Expenses:</strong> {{ profile["family"]["monthlyCummExpenses"] }}$<br/>
+                            <strong>Monthly Income:</strong> {{ profile["family"]["monthlyCummIncome"] }}$<br/>
+                            <strong>Number of Members:</strong> {{ profile["family"]["numMembers"] }}<br/>
+                            <strong>Number of Occupations:</strong> {{ profile["family"]["numOccupations"] }}
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary" onclick="update()">
+                        Update Credentials
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    {% elif emotions %}
+        <div class="emotion-container">
+            <div class="card-body">
+                <h2 class="card-title">Emotion Engagement</h2>
+                <form action="/emotions" method="post">
+                    <label for="hours-before">Hours: </label>
+                    <input
+                            type="text"
+                            name="hours-before"
+                            id="hours-before"
+                            size="1"
+                            maxlength="2"
+                            value="24"
+                    /><br/>
+                    {% if hours_before_error %}
+                        <span class="error-message">{{ hours_before_error }}</span><br/>
+                    {% endif %}
+
+                    <label for="weeks-before">Weeks: </label>
+                    <input
+                            type="text"
+                            name="weeks-before"
+                            id="weeks-before"
+                            size="1"
+                            maxlength="2"
+                            value="0"
+                    /><br/>
+                    {% if weeks_before_error %}
+                        <span class="error-message">{{ weeks_before_error }}</span><br/>
+                    {% endif %}
+
+                    <label for="months-before">Months: </label>
+                    <input
+                            type="text"
+                            name="months-before"
+                            id="months-before"
+                            size="1"
+                            maxlength="2"
+                            value="0"
+                    /><br/>
+                    {% if months_before_error %}
+                        <span class="error-message">{{ months_before_error }}</span><br/>
+                    {% endif %}
+
+                    <label for="years-before">Years: </label>
+                    <input
+                            type="text"
+                            name="years-before"
+                            id="years-before"
+                            size="1"
+                            maxlength="2"
+                            value="0"
+                    /><br/>
+                    {% if years_before_error %}
+                        <span class="error-message">{{ years_before_error }}</span><br/>
+                    {% endif %} {% if emotion_engagement_bar_plt %}
+                    <img
+                            src="data:image/jpeg;base64,{{ emotion_engagement_bar_plt }}"
+                            alt="Emotion Engagement Bar"
+                    />
+                {% endif %} {% if emotion_engagement_pie_plt %}
+                    <img
+                            src="data:image/jpeg;base64,{{ emotion_engagement_pie_plt }}"
+                            alt="Emotion Engagement Pie"
+                    />
+                {% endif %} {% if emotion_engagement_na %}
+                    <span class="error-message">{{ emotion_engagement_na }}</span><br/>
+                {% endif %}
+
+                    <br/><br/>
+                    <div class="mb-2">
+                        <button type="submit" class="btn btn-primary">Fetch</button>
+                        <button
+                                type="reset"
+                                class="btn btn-secondary"
+                                onclick="resetEmotions()"
+                        >
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% elif scr or scr_error or scr_responses_na %}
+        <div class="scr-container">
+            <div class="card-body">
+                <h2 class="card-title">Special Consideration Requests</h2>
+                {% if scr_error %}
+                    <span class="error-message">{{ scr_error }}</span><br/>
+                {% elif scr_responses_na %}
+                    <span class="error-message">{{ scr_responses_na }}</span><br/>
+                {% endif %}
+                <form action="/scr" method="post">
+                    <p class="card-text">
+                        <b>Message:</b>
+                    </p>
+                    <label for="scr">
+                        <textarea
+                                placeholder="Write something to the organization..."
+                                id="scr"
+                                name="scr-message"
+                                style="width: 690px;
+                                height: 100px;"
+                                maxlength="500"
+                        ></textarea>
+                    </label>
+                    <div class="mb-2">
+                        <button type="submit" class="btn btn-primary">Request</button>
+                        <button
+                                type="reset"
+                                class="btn btn-secondary"
+                                onclick="resetSpecialConsiderationRequest()"
+                        >
+                            Reset
+                        </button>
+                    </div>
+                    <div class="mb-2">
+                        <button type="button"
+                                class="btn btn-outline-warning"
+                                onclick="fetchRespondedSpecialConsiderationRequests()">
+                            Fetch responded special consideration requests
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% elif scr_responses %}
+        <h2 class="mt-4">Responded Special Consideration Requests</h2>
+        {% for response in scr_responses %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p class="card-text">
+                        <b>ID:</b> {{ response["_id"] }}
+                    </p>
+                    <p class="card-text">
+                        <b>Request:</b> {{ response["message"] }}
+                    </p>
+                    <p class="card-text">
+                        <b>Response:</b> {{ response["response"] }}
+                    </p>
+                    <p class="card-text">
+                        <b>Requested On:</b> {{ response["requestedOn"].strftime('%B %d, %Y %I:%M %p') }}
+                    </p>
+                    <p class="card-text">
+                        <b>Responded On:</b> {{ response["respondedOn"].strftime('%B %d, %Y %I:%M %p') }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="mb-2">
+            <button
+                    type="button"
+                    class="btn btn-outline-warning"
+                    onclick="specialConsiderationRequest()">
+                Perform Special Consideration Request
+            </button>
+        </div>
+    {% endif %}
+
+
     <script>
-      {% if emotions %}
-          {% if hours_before %}
-              document.getElementById("hours-before").value = "{{ hours_before }}"
-          {% endif %}
+        {% if emotions %}
+            {% if hours_before %}
+                document.getElementById("hours-before").value = "{{ hours_before }}"
+            {% endif %}
 
-          {% if weeks_before %}
-              document.getElementById("weeks-before").value = "{{ weeks_before }}"
-          {% endif %}
+            {% if weeks_before %}
+                document.getElementById("weeks-before").value = "{{ weeks_before }}"
+            {% endif %}
 
-          {% if months_before %}
-              document.getElementById("months-before").value = "{{ months_before }}"
-          {% endif %}
+            {% if months_before %}
+                document.getElementById("months-before").value = "{{ months_before }}"
+            {% endif %}
 
-          {% if years_before %}
-              document.getElementById("years-before").value = "{{ years_before }}"
-          {% endif %}
-      {% endif %}
+            {% if years_before %}
+                document.getElementById("years-before").value = "{{ years_before }}"
+            {% endif %}
+        {% endif %}
     </script>
-  </body>
+</body>
 </html>

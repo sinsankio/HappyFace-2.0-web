@@ -1,140 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Organization Modification</title>
     <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     />
     <style>
-      .error-message {
-        color: red;
-        font-size: 14px;
-      }
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
 
-      .update-container {
-        max-width: 600px;
-        margin: auto;
-        margin-top: 50px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
+        .update-container {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
-  </head>
-  <body>
-    <div class="update-container">
-      <script>
+</head>
+<body>
+<div class="update-container">
+    <script>
         function dashboard() {
-          window.location.href = "/dashboard";
+            window.location.href = "/dashboard";
         }
 
         function resetUpdate() {
-          window.location.href = "/update-basic";
+            window.location.href = "/update-basic";
         }
-      </script>
+    </script>
 
-      <h2 class="text-center">Organization Update</h2>
-      <form action="/update-basic" method="post" enctype="multipart/form-data">
+    <h2 class="text-center">Organization Update</h2>
+    <form action="/update-basic" method="post" enctype="multipart/form-data">
         <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" name="name" id="name" class="form-control" />
-          {% if name_error %}
-          <span class="error-message">{{ name_error }}</span>
-          {% endif %}
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" class="form-control"/>
+            {% if name_error %}
+                <span class="error-message">{{ name_error }}</span>
+            {% endif %}
         </div>
 
         <div class="form-group">
-          <label for="address">Address:</label>
-          <input type="text" name="address" id="address" class="form-control" />
-          {% if address_error %}
-          <span class="error-message">{{ address_error }}</span>
-          {% endif %}
+            <label for="address">Address:</label>
+            <input type="text" name="address" id="address" class="form-control"/>
+            {% if address_error %}
+                <span class="error-message">{{ address_error }}</span>
+            {% endif %}
         </div>
 
         <div class="form-group">
-          <label for="business-reg">Business Registration ID:</label>
-          <input
-            type="text"
-            name="business-reg"
-            id="business-reg"
-            class="form-control"
-          />
-          {% if business_reg_error %}
-          <span class="error-message">{{ business_reg_error }}</span>
-          {% endif %}
+            <label for="business-reg">Business Registration ID:</label>
+            <input
+                    type="text"
+                    name="business-reg"
+                    id="business-reg"
+                    class="form-control"
+            />
+            {% if business_reg_error %}
+                <span class="error-message">{{ business_reg_error }}</span>
+            {% endif %}
         </div>
 
         <div class="form-group">
-          <label for="owner">Owner:</label>
-          <input type="text" name="owner" id="owner" class="form-control" />
-          {% if owner_error %}
-          <span class="error-message">{{ owner_error }}</span>
-          {% endif %}
+            <label for="owner">Owner:</label>
+            <input type="text" name="owner" id="owner" class="form-control"/>
+            {% if owner_error %}
+                <span class="error-message">{{ owner_error }}</span>
+            {% endif %}
         </div>
 
         <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="text" name="email" id="email" class="form-control" />
-          {% if email_error %}
-          <span class="error-message">{{ email_error }}</span>
-          {% endif %}
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email" class="form-control"/>
+            {% if email_error %}
+                <span class="error-message">{{ email_error }}</span>
+            {% endif %}
         </div>
 
         <div class="form-group">
-          <label for="logo-img-file">Logo Image File:</label>
-          <input
-            type="file"
-            name="logo-img-file"
-            id="logo-img-file"
-            accept=".jpg, .jpeg, .png"
-            class="form-control-file"
-          />
+            <label for="logo-img-file">Logo Image File:</label>
+            <input
+                    type="file"
+                    name="logo-img-file"
+                    id="logo-img-file"
+                    accept=".jpg, .jpeg, .png"
+                    class="form-control-file"
+            />
         </div>
 
         <div class="mb-4">
-          <input type="submit" value="Update" class="btn btn-primary" />
-          <input
-            type="reset"
-            onclick="resetUpdate()"
-            value="Reset"
-            class="btn btn-secondary"
-          />
+            <input type="submit" value="Update" class="btn btn-primary"/>
+            <input
+                    type="reset"
+                    onclick="resetUpdate()"
+                    value="Reset"
+                    class="btn btn-secondary"
+            />
         </div>
-      </form>
+    </form>
 
-      <div class="mb-2">
+    <div class="mb-2">
         <button type="button" class="btn btn-success" onclick="dashboard()">
-          Dashboard
+            Dashboard
         </button>
-      </div>
     </div>
+</div>
 
-    <script>
-      {% if update_organization %}
-          {% if update_organization["name"] %}
-              document.getElementById("name").value = "{{ update_organization["name"] }}"
-          {% endif %}
+<script>
+    {% if update_organization %}
+        {% if update_organization["name"] %}
+            document.getElementById("name").value = "{{ update_organization["name"] }}"
+        {% endif %}
 
-          {% if update_organization["address"] %}
-              document.getElementById("address").value = "{{ update_organization["address"] }}"
-          {% endif %}
+        {% if update_organization["address"] %}
+            document.getElementById("address").value = "{{ update_organization["address"] }}"
+        {% endif %}
 
-          {% if update_organization["businessReg"] %}
-              document.getElementById("business-reg").value = "{{ update_organization["businessReg"] }}"
-          {% endif %}
+        {% if update_organization["businessReg"] %}
+            document.getElementById("business-reg").value = "{{ update_organization["businessReg"] }}"
+        {% endif %}
 
-          {% if update_organization["owner"] %}
-              document.getElementById("owner").value = "{{ update_organization["owner"] }}"
-          {% endif %}
+        {% if update_organization["owner"] %}
+            document.getElementById("owner").value = "{{ update_organization["owner"] }}"
+        {% endif %}
 
-          {% if update_organization["email"] %}
-              document.getElementById("email").value = "{{ update_organization["email"] }}"
-          {% endif %}
-      {% endif %}
-    </script>
-  </body>
+        {% if update_organization["email"] %}
+            document.getElementById("email").value = "{{ update_organization["email"] }}"
+        {% endif %}
+    {% endif %}
+</script>
+</body>
 </html>

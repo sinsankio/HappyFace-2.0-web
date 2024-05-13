@@ -32,10 +32,10 @@ class SubjectApiHelper:
     def remember_me(org_auth_key: str, auth_key: str) -> dict | None:
         url = f"{ApiCallConfigHelper.SUBJECT_API_ENDPOINT}/remember"
         data = {
-          "basicRememberMe": {
-            "authKey": org_auth_key
-          },
-          "subAuthKey": auth_key
+            "basicRememberMe": {
+                "authKey": org_auth_key
+            },
+            "subAuthKey": auth_key
         }
 
         if subject := RequestHelper.perform_request(HttpRequest.POST, url, data=data):
@@ -50,7 +50,7 @@ class SubjectApiHelper:
                 "username": subject["username"],
                 "password": subject["password"]
             },
-            "new_subject": new_subject
+            "newSubject": new_subject
         }
 
         if subject := RequestHelper.perform_request(HttpRequest.PUT, url, data=data):
@@ -65,7 +65,7 @@ class SubjectApiHelper:
                 "username": subject["username"],
                 "password": subject["password"]
             },
-            "new_subject": new_subject
+            "newSubject": new_subject
         }
 
         if subject := RequestHelper.perform_request(HttpRequest.PUT, url, data=data):
@@ -120,3 +120,32 @@ class SubjectApiHelper:
 
         if consultancy := RequestHelper.perform_request(HttpRequest.POST, url, data=data):
             return consultancy
+
+    @staticmethod
+    def request_special_consideration(org_key: str, subject: dict, message: str) -> dict | None:
+        url = f"{ApiCallConfigHelper.SUBJECT_API_ENDPOINT}/scr"
+        data = {
+            "subject": {
+                "username": subject["username"],
+                "password": subject["password"],
+                "orgKey": org_key
+            },
+            "specialConsiderationRequest": {
+                "message": message
+            }
+        }
+
+        if analysis := RequestHelper.perform_request(HttpRequest.POST, url, data=data):
+            return analysis
+
+    @staticmethod
+    def fetch_responded_special_consideration_requests(org_key: str, subject: dict) -> dict | None:
+        url = f"{ApiCallConfigHelper.SUBJECT_API_ENDPOINT}/scr-responses"
+        data = {
+            "username": subject["username"],
+            "password": subject["password"],
+            "orgKey": org_key
+        }
+
+        if responded_scrs := RequestHelper.perform_request(HttpRequest.POST, url, data=data):
+            return responded_scrs

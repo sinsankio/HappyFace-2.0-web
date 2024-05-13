@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Organization Deletion</title>
     <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     />
     <style>
-      .error-message {
-        color: red;
-        font-size: 14px;
-      }
-
-      .delete-container {
-        max-width: 600px;
-        margin: auto;
-        margin-top: 50px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-    </style>
-  </head>
-  <body>
-    <div class="delete-container">
-      <h2 class="text-center">Organization Delete</h2>
-      <script>
-        function dashboard() {
-          window.location.href = "/dashboard";
+        .error-message {
+            color: red;
+            font-size: 14px;
         }
-      </script>
 
-      <p>
+        .delete-container {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div class="delete-container">
+    <h2 class="text-center">Organization Delete</h2>
+    <script>
+        function dashboard() {
+            window.location.href = "/dashboard";
+        }
+    </script>
+
+    <p>
         Type the text <b>{{ random_fake_word }}</b> to confirm your deletion
-      </p>
-      <form action="/delete/{{ random_fake_word }}" method="post">
+    </p>
+    <form action="/delete/{{ random_fake_word }}" method="post">
         <div class="form-group">
-          <input type="text" name="re-type" class="form-control" required />
-          {% if delete_error %}
-          <p class="error-message">{{ delete_error }}</p>
-          {% endif %}
+            <input type="text" name="re-type" class="form-control" required/>
+            {% if delete_error %}
+                <p class="error-message">{{ delete_error }}</p>
+            {% endif %}
         </div>
         <div class="form-group">
-          <input
-            type="submit"
-            value="Confirm Deletion"
-            class="btn btn-danger"
-          />
+            <input
+                    type="submit"
+                    value="Confirm Deletion"
+                    class="btn btn-danger"
+            />
         </div>
-      </form>
+    </form>
 
-      <button type="button" class="btn btn-success" onclick="dashboard()">
+    <button type="button" class="btn btn-success" onclick="dashboard()">
         Dashboard
-      </button>
-    </div>
-  </body>
+    </button>
+</div>
+</body>
 </html>

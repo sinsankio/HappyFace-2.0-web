@@ -33,7 +33,7 @@ class OrganizationApiHelper:
                 "orgKey": organization["orgKey"],
                 "password": organization["password"]
             },
-            "new_organization": new_organization
+            "newOrganization": new_organization
         }
 
         if organization := RequestHelper.perform_request(HttpRequest.PUT, url, data=data):
@@ -47,7 +47,7 @@ class OrganizationApiHelper:
                 "orgKey": organization["orgKey"],
                 "password": organization["password"]
             },
-            "new_organization": new_organization
+            "newOrganization": new_organization
         }
 
         if organization := RequestHelper.perform_request(HttpRequest.PUT, url, data=data):
@@ -123,7 +123,7 @@ class OrganizationApiHelper:
                 "password": subject["password"],
                 "orgKey": organization["orgKey"]
             },
-            "new_subject": subject
+            "newSubject": subject
         }
 
         if subject := RequestHelper.perform_request(HttpRequest.PUT, url, data=data):
@@ -137,11 +137,36 @@ class OrganizationApiHelper:
             "password": organization["password"]
         }
         params = {
-            "sub_id": OrganizationApiHelper.encrypt(subject["_id"])
+            "subId": OrganizationApiHelper.encrypt(subject["_id"])
         }
 
         if status := RequestHelper.perform_request(HttpRequest.DELETE, url, params=params, data=data):
             return status
+
+    @staticmethod
+    def fetch_special_consideration_requests(organization: dict) -> dict | None:
+        url = f"{ApiCallConfigHelper.ORGANIZATION_API_ENDPOINT}/scr"
+        data = {
+            "orgKey": organization["orgKey"],
+            "password": organization["password"]
+        }
+
+        if sc_requests := RequestHelper.perform_request(HttpRequest.POST, url, data=data):
+            return sc_requests
+
+    @staticmethod
+    def make_responses_for_special_consideration_requests(organization: dict, scr_responses: list[dict]) -> dict | None:
+        url = f"{ApiCallConfigHelper.ORGANIZATION_API_ENDPOINT}/scr-response"
+        data = {
+            "organization": {
+                "orgKey": organization["orgKey"],
+                "password": organization["password"]
+            },
+            "scrResponses": scr_responses
+        }
+
+        if organization := RequestHelper.perform_request(HttpRequest.POST, url, data=data):
+            return organization
 
     @staticmethod
     def encrypt(content: str) -> str | None:

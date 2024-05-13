@@ -1,112 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Subject Modification</title>
     <!-- Bootstrap CSS -->
     <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     />
     <style>
-      .error-message {
-        color: red;
-        font-size: 14px;
-      }
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
 
-      .update-container {
-        max-width: 600px;
-        margin: auto;
-        margin-top: 50px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
+        .update-container {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-      .form-group {
-        margin-bottom: 20px;
-      }
+        .form-group {
+            margin-bottom: 20px;
+        }
     </style>
-  </head>
-  <body>
-    <div class="update-container">
-      <script>
-        function dashboard() {
-          window.location.href = "/dashboard";
-        }
-        function reset() {
-          window.location.href = "/update";
-        }
-      </script>
-
-      <h2 class="text-center mb-4">Subject Credential Update</h2>
-      <form action="/update" method="post">
-        <div class="form-group">
-          <label for="username">Username:</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            class="form-control"
-          />
-          {% if username_error %}
-          <span class="error-message">{{ username_error }}</span>
-          {% endif %}
-        </div>
-
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            class="form-control"
-          />
-          {% if password_error %}
-          <span class="error-message">{{ password_error }}</span>
-          {% endif %}
-        </div>
-
-        <div class="form-group">
-          <label for="password-retype">Password Retype:</label>
-          <input
-            type="password"
-            name="password-retype"
-            id="password-retype"
-            class="form-control"
-          />
-          {% if password_retype_error %}
-          <span class="error-message">{{ password_retype_error }}</span>
-          {% endif %}
-        </div>
-
-        <div class="form-group">
-          <input type="submit" value="Update" class="btn btn-primary" />
-          <button type="button" class="btn btn-secondary" onclick="reset()">
-            Reset
-          </button>
-        </div>
-      </form>
-
-      <div class="mb-2">
-        <button onclick="dashboard()" class="btn btn-success">Dashboard</button>
-      </div>
-    </div>
-
+</head>
+<body>
+<div class="update-container">
     <script>
-      {% if new_username %}
-      document.getElementById("username").value = "{{ new_username }}"
-      {% endif %}
+        function dashboard() {
+            window.location.href = "/dashboard";
+        }
 
-      {% if new_password %}
-      document.getElementById("password").value = "{{ new_password }}"
-      {% endif %}
-
-      {% if new_password_retype %}
-      document.getElementById("password-retype").value = "{{ new_password_retype }}"
-      {% endif %}
+        function reset() {
+            window.location.href = "/update";
+        }
     </script>
-  </body>
+
+    <h2 class="text-center mb-4">Subject Credential Update</h2>
+    <form action="/update" method="post">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="form-control"
+            />
+            {% if username_error %}
+                <span class="error-message">{{ username_error }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control"
+            />
+            {% if password_error %}
+                <span class="error-message">{{ password_error }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="password-retype">Password Retype:</label>
+            <input
+                    type="password"
+                    name="password-retype"
+                    id="password-retype"
+                    class="form-control"
+            />
+            {% if password_retype_error %}
+                <span class="error-message">{{ password_retype_error }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-primary"/>
+            <button type="button" class="btn btn-secondary" onclick="reset()">
+                Reset
+            </button>
+        </div>
+    </form>
+
+    <div class="mb-2">
+        <button onclick="dashboard()" class="btn btn-success">Dashboard</button>
+    </div>
+</div>
+
+<script>
+    {% if new_username %}
+        document.getElementById("username").value = "{{ new_username }}"
+    {% endif %}
+
+    {% if new_password %}
+        document.getElementById("password").value = "{{ new_password }}"
+    {% endif %}
+
+    {% if new_password_retype %}
+        document.getElementById("password-retype").value = "{{ new_password_retype }}"
+    {% endif %}
+</script>
+</body>
 </html>

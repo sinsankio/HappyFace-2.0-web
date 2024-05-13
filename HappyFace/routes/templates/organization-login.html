@@ -34,63 +34,65 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2 class="text-center">Organization Login</h2>
+<div class="login-container">
+    <h2 class="text-center">Organization Login</h2>
 
-        <script>
-            function resetLogin() {
-                window.location.href = "/login";
-            }
-        </script>
+    <script>
+        function resetLogin() {
+            window.location.href = "/login";
+        }
+    </script>
 
-        <form action="/login" method="post">
-            <div class="form-group">
-                <label for="org-key">Organization Key:</label>
-                <input type="text" class="form-control" id="org-key" name="org-key" {% if org_key %} value="{{ org_key }}" {% endif %} />
-            </div>
+    <form action="/login" method="post">
+        <div class="form-group">
+            <label for="org-key">Organization Key:</label>
+            <input type="text" class="form-control" id="org-key" name="org-key" {% if org_key %}
+                   value="{{ org_key }}" {% endif %} />
+        </div>
 
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" {% if password %} value="{{ password }}" {% endif %} />
-            </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" {% if password %}
+                   value="{{ password }}" {% endif %} />
+        </div>
 
-            {% if error %}
+        {% if error %}
             <div class="form-group">
                 <span class="error-message">{{ error }}</span>
             </div>
-            {% endif %}
-
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
-                <label class="form-check-label" for="remember-me">Remember Me</label>
-            </div>
-
-            <br />
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Login</button>
-                <button type="button" class="btn btn-secondary" onclick="resetLogin()">Clear</button>
-            </div>
-
-            <br />
-
-            <p class="text-center"><a href="/register">Don't have an account?</a></p>
-        </form>
-    </div>
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-    <script>
-        {% if org_key %}
-            document.getElementById("org-key").value = "{{ org_key }}"
         {% endif %}
 
-        {% if password %}
-            document.getElementById("password").value = "{{ password }}"
-        {% endif %}
-    </script>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+            <label class="form-check-label" for="remember-me">Remember Me</label>
+        </div>
+
+        <br/>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-secondary" onclick="resetLogin()">Clear</button>
+        </div>
+
+        <br/>
+
+        <p class="text-center"><a href="/register">Don't have an account?</a></p>
+    </form>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    {% if org_key %}
+        document.getElementById("org-key").value = "{{ org_key }}"
+    {% endif %}
+
+    {% if password %}
+        document.getElementById("password").value = "{{ password }}"
+    {% endif %}
+</script>
 </body>
 </html>

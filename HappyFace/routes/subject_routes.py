@@ -69,7 +69,8 @@ def login():
         session["logged-subject-org-key"] = HashHelper.hash(org_key)
         app.session_logged_subs[subject["_id"]] = subject
         return redirect(url_for("dashboard"))
-    return render_template("subject-login.html", error="Invalid login", org_key=org_key, username=username, password=password)
+    return render_template("subject-login.html", error="Invalid login", org_key=org_key, username=username,
+                           password=password)
 
 
 @app.route("/dashboard", methods=["GET"])
@@ -217,7 +218,7 @@ def fetch_emotion_engagement():
         years = int(years_before)
 
         if emotion_engagement := SubjectApiHelper.fetch_emotion_engagement(org_key, subject, hours, weeks, months,
-                                                                                years):
+                                                                           years):
             emotion_engagement = {emotion: prob * 100 for emotion, prob in emotion_engagement.items()}
             emotion_engagement_bar_plt_img = DataVisualizeHelper.plot_emotion_engagement_bar(emotion_engagement)
             emotion_engagement_bar_plt_str = ImageHelper.encode_np(emotion_engagement_bar_plt_img)
@@ -256,8 +257,7 @@ def chat_consultancy():
 
                 for message in consultancy["chat"]:
                     message["sentOn"] = datetime.fromisoformat(message["sentOn"])
-                return render_template("subject-assistant-chat.html", consultancy=consultancy)
-            return render_template("subject-dashboard.html", consultancy_na="No any consultations available")
+            return render_template("subject-assistant-chat.html", consultancy=consultancy)
 
         message = request.form["message"]
 
@@ -278,6 +278,37 @@ def chat_consultancy():
             for message in consultancy["chat"]:
                 message["sentOn"] = datetime.fromisoformat(message["sentOn"])
             return render_template("subject-assistant-chat.html", consultancy=consultancy)
+    return redirect(url_for("login"))
+
+
+@app.route("/scr", methods=["GET", "POST"])
+def request_for_special_consideration():
+    if subject := session.get("logged-subject"):
+        if request.method == "GET":
+            return render_template("subject-dashboard.html", scr=True)
+
+        subject = app.session_logged_subs[subject]
+        org_key = session.get("logged-subject-org-key")
+        message = request.form["scr-message"]
+        if not ValidationHelper.is_empty(message):
+            if _ := SubjectApiHelper.request_special_consideration(org_key, subject, message):
+                return render_template("subject-dashboard.html")
+        return render_template("subject-dashboard.html", scr_error="Invalid special consideration request")
+    return redirect(url_for("login"))
+
+
+@app.route("/scr-responses", methods=["GET"])
+def fetch_responded_special_consideration_requests():
+    if subject := session.get("logged-subject"):
+        subject = app.session_logged_subs[subject]
+        org_key = session.get("logged-subject-org-key")
+        if scr_responses := SubjectApiHelper.fetch_responded_special_consideration_requests(org_key, subject):
+            for response in scr_responses:
+                response["requestedOn"] = datetime.fromisoformat(response["requestedOn"])
+                response["respondedOn"] = datetime.fromisoformat(response["respondedOn"])
+            return render_template("subject-dashboard.html", scr_responses=scr_responses)
+        return render_template("subject-dashboard.html",
+                               scr_responses_na="No any responded special consideration requests")
     return redirect(url_for("login"))
 
 

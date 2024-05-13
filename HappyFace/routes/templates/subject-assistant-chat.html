@@ -1,157 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Subject Assistant Chat</title>
     <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
     <style>
-      * {
-        box-sizing: border-box;
-      }
+        * {
+            box-sizing: border-box;
+        }
 
-      body {
-        padding-top: 60px; /* Adjust the top padding to fix the navbar */
-      }
+        body {
+            padding-top: 60px; /* Adjust the top padding to fix the navbar */
+        }
 
-      .open-button {
-        background-color: #555;
-        color: white;
-        padding: 16px 20px;
-        border: none;
-        cursor: pointer;
-        opacity: 0.8;
-        position: fixed;
-        bottom: 23px;
-        right: 28px;
-        width: 280px;
-      }
+        .open-button {
+            background-color: #555;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            opacity: 0.8;
+            position: fixed;
+            bottom: 23px;
+            right: 28px;
+            width: 280px;
+        }
 
-      .chat-popup {
-        display: none;
-        position: fixed;
-        bottom: 0;
-        right: 15px;
-        border: 3px solid #f1f1f1;
-        z-index: 9;
-      }
+        .chat-popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+        }
 
-      .form-container {
-        max-width: 300px;
-        padding: 10px;
-        background-color: white;
-      }
+        .form-container {
+            max-width: 300px;
+            padding: 10px;
+            background-color: white;
+        }
 
-      .form-container textarea {
-        width: 100%;
-        padding: 15px;
-        margin: 5px 0 22px 0;
-        border: none;
-        background: #f1f1f1;
-        resize: none;
-        min-height: 200px;
-      }
+        .form-container textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            border: none;
+            background: #f1f1f1;
+            resize: none;
+            min-height: 200px;
+        }
 
-      .form-container textarea:focus {
-        background-color: #ddd;
-        outline: none;
-      }
+        .form-container textarea:focus {
+            background-color: #ddd;
+            outline: none;
+        }
 
-      .form-container .btn {
-        width: 100%;
-        margin-bottom: 10px;
-      }
+        .form-container .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
 
-      .form-container .btn-send {
-        background-color: #04aa6d;
-        color: white;
-        padding: 16px 20px;
-        border: none;
-        cursor: pointer;
-        opacity: 0.8;
-      }
+        .form-container .btn-send {
+            background-color: #04aa6d;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            opacity: 0.8;
+        }
 
-      .form-container .btn-cancel {
-        background-color: red;
-      }
+        .form-container .btn-cancel {
+            background-color: red;
+        }
 
-      .form-container .btn:hover,
-      .open-button:hover {
-        opacity: 1;
-      }
+        .form-container .btn:hover,
+        .open-button:hover {
+            opacity: 1;
+        }
 
-      .error-message {
-        color: red;
-        font-size: 14px;
-      }
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
     </style>
-  </head>
+</head>
 
-  <body>
-  <script>
+<body>
+<script>
     function openForm() {
-      document.getElementById("chat").style.display = "block";
+        document.getElementById("chat").style.display = "block";
     }
+
     function closeForm() {
-      document.getElementById("chat").style.display = "none";
+        document.getElementById("chat").style.display = "none";
     }
+
     function dashboard() {
-      window.location.href = "/dashboard";
+        window.location.href = "/dashboard";
     }
-  </script>
-    {% if consultancy %}
+</script>
+{% if consultancy %}
     <div class="container mt-4">
-      <h2>
-        Latest Consultancy Chat On: {{ consultancy['consultedOn'].strftime('%B
+        <h2>
+            Latest Consultancy Chat On: {{ consultancy['consultedOn'].strftime('%B
         %d, %Y %I:%M %p') }}
-      </h2>
+        </h2>
 
-      {% for message in consultancy["chat"] %}
-      <div class="message-container border rounded p-3 mb-3">
-          <p><b>{{ message["sender"].title() }}: </b><pre>{{ message["body"] }}</pre></p>
-        <small>{{ message["sentOn"].strftime('%B %d, %Y %I:%M %p') }}</small>
-      </div>
-      {% endfor %}
+        {% for message in consultancy["chat"] %}
+            <div class="message-container border rounded p-3 mb-3">
+                <p><b>{{ message["sender"].title() }}: </b>
+                <pre>{{ message["body"] }}</pre>
+                </p>
+                <small>{{ message["sentOn"].strftime('%B %d, %Y %I:%M %p') }}</small>
+            </div>
+        {% endfor %}
     </div>
+{% else %}
+    <div class="container mt-4">
+        <h2>Initial Consultancy Chat</h2>
+    </div>
+{% endif %}
+<button class="open-button btn btn-primary" onclick="openForm()">
+    Chat to HappyFace Emotionistant
+</button
+>
+<br/>
+<button onclick="dashboard()" class="btn btn-success">Dashboard</button>
 
-    <button class="open-button btn btn-primary" onclick="openForm()">
-      Chat to HappyFace Emotionistant</button
-    ><br />
-    <button onclick="dashboard()" class="btn btn-success">Dashboard</button>
-
-    <div class="chat-popup" id="chat">
-      <form action="/consultancy-chat" method="post" class="form-container">
+<div class="chat-popup" id="chat">
+    <form action="/consultancy-chat" method="post" class="form-container">
         <h1 class="mb-4">Chat</h1>
 
         <label for="message"><b>Message</b></label
-        ><br />
+        ><br/>
         {% if message_error %}
-        <script>
-          openForm();
-        </script>
-        <span class="error-message">{{ message_error }}</span><br />
+            <script>
+                openForm();
+            </script>
+            <span class="error-message">{{ message_error }}</span><br/>
         {% endif %}
         <textarea
-          placeholder="Type message..."
-          id="message"
-          name="message"
-          class="mb-3"
+                placeholder="Type message..."
+                id="message"
+                name="message"
+                class="mb-3"
         ></textarea>
 
         <button type="submit" class="btn btn-send">Send</button>
         <button type="button" class="btn btn-cancel" onclick="closeForm()">
-          Close
+            Close
         </button>
-      </form>
-    </div>
+    </form>
+</div>
 
-    {% endif %}
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  </body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
 </html>

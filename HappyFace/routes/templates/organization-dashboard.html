@@ -1,102 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Organization Dashboard</title>
     <!-- Bootstrap CSS -->
     <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     />
     <style>
-      .dashboard-container {
-        max-width: 800px;
-        margin: auto;
-        margin-top: 50px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #ffffff;
-      }
-
-      .resized-image {
-        width: 200px;
-        height: 200px;
-        border-radius: 5px;
-        object-fit: cover;
-        margin: 0 auto;
-        display: block;
-      }
-
-      .error-message {
-        color: red;
-        font-size: 14px;
-      }
-
-      .btn-container {
-        margin-bottom: 10px;
-      }
-
-      .profile-container,
-      .emotion-container,
-      .subject-container {
-        margin-top: 20px;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      }
-
-      fieldset {
-        margin-top: 20px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        legend {
-          font-size: 20px;
-          margin-bottom: 10px;
+        .dashboard-container {
+            max-width: 800px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
         }
-      }
+
+        .resized-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+
+        .btn-container {
+            max-width: 100%;
+        }
+
+        .profile-container,
+        .emotion-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+
+            legend {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <div class="dashboard-container">
-      <h2 class="text-center">Organization Dashboard</h2>
-      <script>
+</head>
+<body>
+<div class="dashboard-container">
+    <h2 class="text-center">Organization Dashboard</h2>
+    <script>
         function logout() {
             window.location.href = "/logout"
         }
+
         function viewProfile() {
             {% if profile %}
-                 window.location.href = "/dashboard"
+                window.location.href = "/dashboard"
             {% else %}
                 window.location.href = "/profile"
             {% endif %}
         }
+
         function emotions() {
             {% if emotions %}
-                 window.location.href = "/dashboard"
+                window.location.href = "/dashboard"
             {% else %}
                 window.location.href = "/emotions"
             {% endif %}
         }
+
         function resetEmotions() {
             window.location.href = "/emotions"
         }
+
         function updateBasic() {
             window.location.href = "/update-basic"
         }
+
         function updateCredentials() {
             window.location.href = "/update-credentials"
         }
+
         function deleteProfile() {
             window.location.href = "/delete"
         }
+
         function registerSubject() {
             window.location.href = "/register-subject"
         }
+
         function fetchSubjects() {
             {% if subjects %}
                 window.location.href = "/dashboard"
@@ -104,267 +112,331 @@
                 window.location.href = "/subjects"
             {% endif %}
         }
+
         function updateSubject(sid) {
             window.location.href = "/update-subject/" + sid
         }
+
         function deleteSubject(sid) {
             window.location.href = "/delete-subject/" + sid
         }
-      </script>
 
-      <div class="btn-container d-flex justify-content-center">
+        function specialConsiderationRequests() {
+            {% if sc_requests %}
+                window.location.href = "/dashboard"
+            {% else %}
+                window.location.href = "/scr"
+            {% endif %}
+        }
+
+        function resetSpecialConsiderationResponses() {
+            window.location.href = "/scr"
+        }
+    </script>
+
+    <div class="btn-container d-flex justify-content-center">
         <button class="btn btn-danger" onclick="logout()">Logout</button>
-        <button class="btn btn-primary mx-2" onclick="viewProfile()">
-          Profile
+        <button class="btn btn-primary btn-sm mx-1" onclick="viewProfile()">
+            Profile
         </button>
-        <button class="btn btn-info mx-2" onclick="emotions()">
-          Emotion Engagement
+        <button class="btn btn-info btn-sm mx-1" onclick="emotions()">
+            Emotion Engagement
         </button>
-        <button class="btn btn-success mx-2" onclick="registerSubject()">
-          Register Subject
+        <button class="btn btn-success btn-sm mx-1" onclick="registerSubject()">
+            Register Subject
         </button>
-        <button class="btn btn-warning mx-2" onclick="fetchSubjects()">
-          Fetch Subjects
+        <button class="btn btn-warning btn-sm mx-1" onclick="fetchSubjects()">
+            Fetch Subjects
         </button>
-      </div>
-
-      {% if profile %}
-      <div class="card profile-container">
-        <div class="card-body">
-          <h2 class="card-title">Profile</h2>
-          <img
-            class="resized-image img-fluid"
-            src="data:image/jpeg;base64,{{ profile['displayLogo'] }}"
-            alt="Logo"
-          />
-          <ul class="list-group mt-3">
-            <li class="list-group-item">
-              <strong>Name:</strong> {{ profile["name"].title() }}
-            </li>
-            <li class="list-group-item">
-              <strong>Address:</strong> {{ profile["address"].title() }}
-            </li>
-            <li class="list-group-item">
-              <strong>Business Registration:</strong> {{ profile["businessReg"]
-              if profile["businessReg"] else "N/A" }}
-            </li>
-            <li class="list-group-item">
-              <strong>Owner:</strong> {{ profile["owner"].title() if
-              profile["owner"] else "N/A" }}
-            </li>
-            <li class="list-group-item">
-              <strong>Email:</strong> {{ profile["email"] }}
-            </li>
-            <li class="list-group-item">
-              <strong>Registered On:</strong> {{
-              profile["registeredOn"].strftime('%B %d, %Y %I:%M %p') }}
-            </li>
-            <li class="list-group-item">
-              <strong>Registered Subject Count:</strong> {{
-              profile["subjects"]|length }}
-            </li>
-            <li class="list-group-item">
-              <strong>Subscription:</strong> {{
-              profile["subscription"]["name"].title() }}
-            </li>
-          </ul>
-          <div class="mt-3">
-            <button class="btn btn-primary" onclick="updateBasic()">
-              Basic Update
-            </button>
-            <button class="btn btn-warning" onclick="updateCredentials()">
-              Credential Update
-            </button>
-            <button class="btn btn-danger" onclick="deleteProfile()">
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
-      {% elif emotions %}
-      <div class="emotion-container">
-        <h2 class="mt-2">Emotion Engagement</h2>
-        <form action="/emotions" method="post">
-          <label for="hours-before">Hours: </label>
-          <input
-            type="text"
-            name="hours-before"
-            id="hours-before"
-            size="1"
-            maxlength="2"
-            value="24"
-          /><br />
-          {% if hours_before_error %}
-          <span class="error-message">{{ hours_before_error }}</span><br />
-          {% endif %}
-
-          <label for="weeks-before">Weeks: </label>
-          <input
-            type="text"
-            name="weeks-before"
-            id="weeks-before"
-            size="1"
-            maxlength="2"
-            value="0"
-          /><br />
-          {% if weeks_before_error %}
-          <span class="error-message">{{ weeks_before_error }}</span><br />
-          {% endif %}
-
-          <label for="months-before">Months: </label>
-          <input
-            type="text"
-            name="months-before"
-            id="months-before"
-            size="1"
-            maxlength="2"
-            value="0"
-          /><br />
-          {% if months_before_error %}
-          <span class="error-message">{{ months_before_error }}</span><br />
-          {% endif %}
-
-          <label for="years-before">Years: </label>
-          <input
-            type="text"
-            name="years-before"
-            id="years-before"
-            size="1"
-            maxlength="2"
-            value="0"
-          /><br />
-          {% if years_before_error %}
-          <span class="error-message">{{ years_before_error }}</span><br />
-          {% endif %} {% if emotion_engagement_bar_plt %}
-          <img
-            src="data:image/jpeg;base64,{{ emotion_engagement_bar_plt }}"
-            alt="Emotion Engagement Bar"
-          />
-          {% endif %} {% if emotion_engagement_pie_plt %}
-          <img
-            src="data:image/jpeg;base64,{{ emotion_engagement_pie_plt }}"
-            alt="Emotion Engagement Pie"
-          />
-          {% endif %} {% if emotion_engagement_na %}
-          <span class="error-message">{{ emotion_engagement_na }}</span><br />
-          {% endif %}
-
-          <br /><br />
-          <div class="mb-2">
-            <button type="submit" class="btn btn-primary">Fetch</button>
-            <button
-              type="reset"
-              class="btn btn-secondary"
-              onclick="resetEmotions()"
-            >
-              Reset
-            </button>
-          </div>
-        </form>
-      </div>
-      {% elif subjects %}
-      <h2 class="mt-4">Subjects</h2>
-      {% for subject in subjects %}
-      <div class="card mb-4">
-        <img
-          class="card-img-top resized-image"
-          src="data:image/jpeg;base64,{{ subject['displayPhoto'] }}"
-          alt="DP"
-        />
-        <div class="card-body">
-          <p class="card-title mt-3">
-            <b>Name:</b> {{ subject["name"].title() }}
-          </p>
-          <p class="card-text">
-            <b>Address:</b> {{ subject["address"].title() }}
-          </p>
-          <p class="card-text"><b>Date of Birth:</b> {{ subject["dob"] }}</p>
-          <p class="card-text">
-            <b>Gender:</b> {{ subject["gender"].title() }}
-          </p>
-          <p class="card-text"><b>Email:</b> {{ subject["email"] }}</p>
-          <p class="card-text">
-            <b>Registered On:</b> {{ subject["registeredOn"].strftime('%B %d, %Y
-            %I:%M %p') }}
-          </p>
-          <p class="card-text"><b>Salary:</b> {{ subject["salary"] }}$</p>
-          <p class="card-text">
-            <b>Face Snap Directory:</b> {{ subject["faceSnapDirURI"] }}
-          </p>
-
-          {% if subject["hiddenDiseases"] %}
-          <p class="card-text"><b>Hidden Diseases:</b></p>
-          <ul class="list-group">
-            {% for disease in subject["hiddenDiseases"] %}
-            <li class="list-group-item">{{ disease.title() }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %}
-
-          <fieldset>
-            <legend>Family</legend>
-            <p class="card-text">
-              Category: {{ subject["family"]["category"].title() }}
-            </p>
-            <p class="card-text">
-              Monthly Expenses: {{ subject["family"]["monthlyCummExpenses"] }}$
-            </p>
-            <p class="card-text">
-              Monthly Income: {{ subject["family"]["monthlyCummIncome"] }}$
-            </p>
-            <p class="card-text">
-              Number of Members: {{ subject["family"]["numMembers"] }}
-            </p>
-            <p class="card-text">
-              Number of Occupations: {{ subject["family"]["numOccupations"] }}
-            </p>
-          </fieldset>
-
-          <div class="mt-3">
-            <button
-              class="btn btn-primary mr-2"
-              onclick="updateSubject('{{ subject['_id'] }}')"
-            >
-              Update
-            </button>
-            <button
-              class="btn btn-danger"
-              onclick="deleteSubject('{{ subject['_id'] }}')"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
-      {% endfor %} {% elif subject_na %}
-      <br />
-      <span class="error-message">{{ subject_na }}</span><br />
-      {% endif %}
+        <button class="btn btn-secondary btn-sm mx-1" onclick="specialConsiderationRequests()">
+            Special Consideration Requests
+        </button>
     </div>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    {% if profile %}
+        <div class="card profile-container">
+            <div class="card-body">
+                <h2 class="card-title">Profile</h2>
+                <img
+                        class="resized-image img-fluid"
+                        src="data:image/jpeg;base64,{{ profile['displayLogo'] }}"
+                        alt="Logo"
+                />
+                <ul class="list-group mt-3">
+                    <li class="list-group-item">
+                        <strong>Name:</strong> {{ profile["name"].title() }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Address:</strong> {{ profile["address"].title() }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Business Registration:</strong> {{ profile["businessReg"]
+              if profile["businessReg"] else "N/A" }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Owner:</strong> {{ profile["owner"].title() if
+              profile["owner"] else "N/A" }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Email:</strong> {{ profile["email"] }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Registered On:</strong> {{ profile["registeredOn"].strftime('%B %d, %Y %I:%M %p') }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Registered Subject Count:</strong> {{ profile["subjects"]|length }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Subscription:</strong> {{ profile["subscription"]["name"].title() }}
+                    </li>
+                </ul>
+                <div class="mt-3">
+                    <button class="btn btn-primary" onclick="updateBasic()">
+                        Basic Update
+                    </button>
+                    <button class="btn btn-warning" onclick="updateCredentials()">
+                        Credential Update
+                    </button>
+                    <button class="btn btn-danger" onclick="deleteProfile()">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% elif emotions %}
+        <div class="emotion-container">
+            <div class="card-body">
+                <h2 class="card-title">Emotion Engagement</h2>
+                <form action="/emotions" method="post">
+                    <label for="hours-before">Hours: </label>
+                    <input
+                            type="text"
+                            name="hours-before"
+                            id="hours-before"
+                            size="1"
+                            maxlength="2"
+                            value="24"
+                    /><br/>
+                    {% if hours_before_error %}
+                        <span class="error-message">{{ hours_before_error }}</span><br/>
+                    {% endif %}
 
-    <script>
-      {% if emotions %}
-          {% if hours_before %}
-              document.getElementById("hours-before").value = "{{ hours_before }}"
-          {% endif %}
+                    <label for="weeks-before">Weeks: </label>
+                    <input
+                            type="text"
+                            name="weeks-before"
+                            id="weeks-before"
+                            size="1"
+                            maxlength="2"
+                            value="0"
+                    /><br/>
+                    {% if weeks_before_error %}
+                        <span class="error-message">{{ weeks_before_error }}</span><br/>
+                    {% endif %}
 
-          {% if weeks_before %}
-              document.getElementById("weeks-before").value = "{{ weeks_before }}"
-          {% endif %}
+                    <label for="months-before">Months: </label>
+                    <input
+                            type="text"
+                            name="months-before"
+                            id="months-before"
+                            size="1"
+                            maxlength="2"
+                            value="0"
+                    /><br/>
+                    {% if months_before_error %}
+                        <span class="error-message">{{ months_before_error }}</span><br/>
+                    {% endif %}
 
-          {% if months_before %}
-              document.getElementById("months-before").value = "{{ months_before }}"
-          {% endif %}
+                    <label for="years-before">Years: </label>
+                    <input
+                            type="text"
+                            name="years-before"
+                            id="years-before"
+                            size="1"
+                            maxlength="2"
+                            value="0"
+                    /><br/>
+                    {% if years_before_error %}
+                        <span class="error-message">{{ years_before_error }}</span><br/>
+                    {% endif %} {% if emotion_engagement_bar_plt %}
+                    <img
+                            src="data:image/jpeg;base64,{{ emotion_engagement_bar_plt }}"
+                            alt="Emotion Engagement Bar"
+                    />
+                {% endif %} {% if emotion_engagement_pie_plt %}
+                    <img
+                            src="data:image/jpeg;base64,{{ emotion_engagement_pie_plt }}"
+                            alt="Emotion Engagement Pie"
+                    />
+                {% endif %} {% if emotion_engagement_na %}
+                    <span class="error-message">{{ emotion_engagement_na }}</span><br/>
+                {% endif %}
 
-          {% if years_before %}
-              document.getElementById("years-before").value = "{{ years_before }}"
-          {% endif %}
-      {% endif %}
-    </script>
-  </body>
+                    <br/><br/>
+                    <div class="mb-2">
+                        <button type="submit" class="btn btn-primary">Fetch</button>
+                        <button
+                                type="reset"
+                                class="btn btn-secondary"
+                                onclick="resetEmotions()"
+                        >
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% elif subjects %}
+        <h2 class="mt-4">Subjects</h2>
+        {% for subject in subjects %}
+            <div class="card mb-4">
+                <img
+                        class="card-img-top resized-image"
+                        src="data:image/jpeg;base64,{{ subject['displayPhoto'] }}"
+                        alt="DP"
+                />
+                <div class="card-body">
+                    <p class="card-title mt-3">
+                        <b>Name:</b> {{ subject["name"].title() }}
+                    </p>
+                    <p class="card-text">
+                        <b>Address:</b> {{ subject["address"].title() }}
+                    </p>
+                    <p class="card-text"><b>Date of Birth:</b> {{ subject["dob"] }}</p>
+                    <p class="card-text">
+                        <b>Gender:</b> {{ subject["gender"].title() }}
+                    </p>
+                    <p class="card-text"><b>Email:</b> {{ subject["email"] }}</p>
+                    <p class="card-text">
+                        <b>Registered On:</b> {{ subject["registeredOn"].strftime('%B %d, %Y
+            %I:%M %p') }}
+                    </p>
+                    <p class="card-text"><b>Salary:</b> {{ subject["salary"] }}$</p>
+                    <p class="card-text">
+                        <b>Face Snap Directory:</b> {{ subject["faceSnapDirURI"] }}
+                    </p>
+
+                    {% if subject["hiddenDiseases"] %}
+                        <p class="card-text"><b>Hidden Diseases:</b></p>
+                        <ul class="list-group">
+                            {% for disease in subject["hiddenDiseases"] %}
+                                <li class="list-group-item">{{ disease.title() }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <fieldset>
+                        <legend>Family</legend>
+                        <p class="card-text">
+                            Category: {{ subject["family"]["category"].title() }}
+                        </p>
+                        <p class="card-text">
+                            Monthly Expenses: {{ subject["family"]["monthlyCummExpenses"] }}$
+                        </p>
+                        <p class="card-text">
+                            Monthly Income: {{ subject["family"]["monthlyCummIncome"] }}$
+                        </p>
+                        <p class="card-text">
+                            Number of Members: {{ subject["family"]["numMembers"] }}
+                        </p>
+                        <p class="card-text">
+                            Number of Occupations: {{ subject["family"]["numOccupations"] }}
+                        </p>
+                    </fieldset>
+
+                    <div class="mt-3">
+                        <button
+                                class="btn btn-primary mr-2"
+                                onclick="updateSubject('{{ subject['_id'] }}')"
+                        >
+                            Update
+                        </button>
+                        <button
+                                class="btn btn-danger"
+                                onclick="deleteSubject('{{ subject['_id'] }}')"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %} {% elif subject_na %}
+        <br/>
+        <span class="error-message">{{ subject_na }}</span><br/>
+    {% elif sc_requests %}
+        <h2 class="mt-4">Special Consideration Requests</h2>
+        <form action="/scr-response" method="post">
+            {% for request in sc_requests %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <b>ID:</b> {{ request["requestId"] }}
+                        </p>
+                        <p class="card-text">
+                            <b>From:</b> {{ request["subjectName"] }}
+                        </p>
+                        <p class="card-text">
+                            <b>Message:</b> {{ request["message"] }}
+                        </p>
+                        <p class="card-text">
+                            <b>On:</b> {{ request["requestedOn"].strftime('%B %d, %Y %I:%M %p') }}
+                        </p>
+                        <p class="card-text">
+                            <b>Response:</b>
+                        </p>
+                        <label for="sc-response">
+                            <textarea
+                                    placeholder="Write something to {{ request['subjectName'] }}..."
+                                    id="sc-response"
+                                    name="sc-{{ request["requestId"] }}-response"
+                                    style="width: 715px;
+                                    height: 100px;"
+                                    maxlength="500"
+                            ></textarea>
+                        </label>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="mb-2">
+                <button type="submit" class="btn btn-primary">Reply</button>
+                <button
+                        type="reset"
+                        class="btn btn-secondary"
+                        onclick="resetSpecialConsiderationResponses()"
+                >
+                    Reset
+                </button>
+            </div>
+        </form>
+    {% elif sc_request_na %}
+        <br/>
+        <span class="error-message">{{ sc_request_na }}</span><br/>
+    {% endif %}
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    {% if emotions %}
+        {% if hours_before %}
+            document.getElementById("hours-before").value = "{{ hours_before }}"
+        {% endif %}
+
+        {% if weeks_before %}
+            document.getElementById("weeks-before").value = "{{ weeks_before }}"
+        {% endif %}
+
+        {% if months_before %}
+            document.getElementById("months-before").value = "{{ months_before }}"
+        {% endif %}
+
+        {% if years_before %}
+            document.getElementById("years-before").value = "{{ years_before }}"
+        {% endif %}
+    {% endif %}
+</script>
+</body>
 </html>
